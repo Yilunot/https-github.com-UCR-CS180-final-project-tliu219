@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "ArcherProfile": {
+      "title": "Archer Profile",
+      "description": "User profile with archery technical specifications",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "experience_level": { "type": "string", "enum": ["beginner", "intermediate", "advanced", "pro"] },
+        "bow_type": { "type": "string", "enum": ["recurve", "compound", "traditional", "barebow"] },
+        "draw_weight": { "type": "number" },
+        "height": { "type": "number" },
+        "wingspan": { "type": "number" },
+        "draw_length": { "type": "number" },
+        "riser_length": { "type": "number" },
+        "limb_size": { "type": "string", "enum": ["short", "medium", "long"] },
+        "arrow_length": { "type": "number" },
+        "arrow_spine": { "type": "number" },
+        "anchor_point": { "type": "string" },
+        "brace_height": { "type": "number" },
+        "joined_date": { "type": "number" }
+      },
+      "required": ["id", "name", "experience_level", "bow_type", "draw_weight", "joined_date"]
+    },
+    "Session": {
+      "title": "Archery Session",
+      "description": "Log of an individual training session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "number" },
+        "type": { "type": "string" },
+        "arrows_shot": { "type": "number" },
+        "average_score": { "type": "number" },
+        "notes": { "type": "string" },
+        "heart_rate": { "type": "number" },
+        "focus_score": { "type": "number" }
+      },
+      "required": ["id", "date", "type", "arrows_shot"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "ArcherProfile",
+      "description": "Public profile metadata for the archer"
+    },
+    "users/{userId}/sessions/{sessionId}": {
+      "schema": "Session",
+      "description": "Training history for the archer"
+    }
+  }
+}

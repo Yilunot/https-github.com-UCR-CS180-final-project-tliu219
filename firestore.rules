@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // User Profile Rules
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      
+      function isValidProfile(data) {
+        return data.keys().hasAll(['id', 'name', 'experience_level', 'bow_type', 'draw_weight', 'joined_date'])
+          && data.name is string && data.name.size() <= 100
+          && data.experience_level in ['beginner', 'intermediate', 'advanced', 'pro']
+          && data.bow_type in ['recurve', 'compound', 'traditional', 'barebow']
+          && data.draw_weight is number
+          && data.joined_date is number;
+      }
+
+      allow create: if isOwner(userId) && isValidProfile(incoming()) && incoming().id == userId;
+      allow update: if isOwner(userId) && isValidProfile(incoming())
+        && incoming().id == existing().id;
+      allow delete: if false;
+
+      // Sessions Subcollection
+      match /sessions/{sessionId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+
+        function isValidSession(data) {
+          return data.keys().hasAll(['id', 'name', 'date', 'archer_id', 'shots', 'distance', 'target_type'])
+            && data.id is string
+            && data.name is string
+            && data.date is string
+            && data.archer_id == userId
+            && data.shots is list
+            && data.distance is number;
+        }
+
+        allow create: if isOwner(userId) && isValidSession(incoming());
+        allow update: if isOwner(userId) && isValidSession(incoming())
+          && incoming().id == existing().id;
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Valkyrie Archery Performance",
+  "description": "Professional archery suite with precision arrow spine calculation, AI form analysis, and technical coaching.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "AI form analysis",
+    "Performance charting",
+    "Shot tracking"
+  ]
+}
