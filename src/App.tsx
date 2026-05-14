@@ -195,7 +195,7 @@ export default function App() {
             </div>
             <div className="bg-[#151619] border border-white/10 p-6 rounded-2xl flex flex-col md:flex-row gap-8">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-[#dcfc44] flex items-center justify-center text-black font-bold text-2xl uppercase">
+                <div className="w-24 h-24 rounded-full bg-[#dcfc44] flex items-center justify-center text-black font-bold text-4xl uppercase shrink-0 shadow-[0_0_30px_rgba(220,252,68,0.2)]">
                   {profile?.name.charAt(0)}
                 </div>
                 <div>

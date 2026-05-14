@@ -141,13 +141,13 @@ export default function Layout({ children, activeView, onViewChange, userName }:
         <header className="flex justify-end p-6 md:p-8 shrink-0">
           <button 
             onClick={() => onViewChange('profile')}
-            className={`w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center font-bold font-mono text-sm shrink-0 ${
+            className={`w-14 h-14 rounded-full border-2 transition-all flex items-center justify-center font-bold font-mono text-lg shrink-0 ${
               activeView === 'profile' 
-                ? 'bg-[#dcfc44] border-[#dcfc44] text-black shadow-[0_0_15px_rgba(220,252,68,0.3)]' 
+                ? 'bg-[#dcfc44] border-[#dcfc44] text-black shadow-[0_0_20px_rgba(220,252,68,0.4)]' 
                 : 'border-[#dcfc44] text-[#dcfc44] hover:bg-[#dcfc44] hover:text-black'
             }`}
           >
-            {userName ? userName.charAt(0).toUpperCase() : <User className="w-5 h-5" />}
+            {userName ? userName.charAt(0).toUpperCase() : <User className="w-6 h-6" />}
           </button>
         </header>
 
