@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LayoutDashboard, Target, Camera, History, Menu, X, ArrowRight, User, LogOut, Zap } from 'lucide-react';
+import { LayoutDashboard, Target, Camera, History, Menu, X, ArrowRight, User, LogOut, Zap, Sun, Moon } from 'lucide-react';
 import { ViewState } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import { auth } from '../lib/firebase';
+import { useTheme } from '../context/ThemeContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ interface LayoutProps {
 
 export default function Layout({ children, activeView, onViewChange, userName }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const handleSignOut = async () => {
     try {
@@ -36,9 +38,9 @@ export default function Layout({ children, activeView, onViewChange, userName }:
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b] text-white flex flex-col md:flex-row overflow-hidden">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)] flex flex-col md:flex-row overflow-hidden transition-colors duration-300">
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-[#111113] border-r border-white/10 p-6 z-20">
+      <aside className="hidden md:flex flex-col w-64 bg-[var(--card-bg)] border-r border-[var(--line)] p-6 z-20">
         <div 
           className="flex items-center gap-3 mb-12 cursor-pointer group"
           onClick={() => onViewChange('dashboard')}
@@ -67,7 +69,15 @@ export default function Layout({ children, activeView, onViewChange, userName }:
         </nav>
 
         <div className="mt-auto space-y-4">
-          <div className="bg-[#1a1b1e] rounded-xl p-4 border border-white/5">
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-[var(--accent)] hover:bg-[var(--line)] transition-all font-mono text-xs uppercase tracking-widest"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5 text-[#dcfc44]" /> : <Moon className="w-5 h-5 text-[#2c3e50]" />}
+            <span>{theme === 'dark' ? 'Day Ops' : 'Night Ops'}</span>
+          </button>
+
+          <div className="bg-[var(--line)] rounded-xl p-4 border border-[var(--line)]">
             <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">PRO STATUS</p>
             <p className="text-sm font-medium">Verified Operative</p>
           </div>
@@ -83,17 +93,22 @@ export default function Layout({ children, activeView, onViewChange, userName }:
       </aside>
 
       {/* Mobile Header */}
-      <header className="md:hidden flex items-center justify-between p-4 bg-[#111113] border-b border-white/10 z-30">
+      <header className="md:hidden flex items-center justify-between p-4 bg-[var(--card-bg)] border-b border-[var(--line)] z-30">
         <div 
           className="flex items-center gap-2 cursor-pointer"
           onClick={() => onViewChange('dashboard')}
         >
-          <Target className="text-[#dcfc44] w-6 h-6" />
+          <Target className="text-[var(--accent)] w-6 h-6" />
           <span className="font-bold tracking-tight">BULLSEYE AI</span>
         </div>
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <X /> : <Menu />}
-        </button>
+        <div className="flex items-center gap-4">
+          <button onClick={toggleTheme} className="p-2 text-gray-400 transition-colors">
+            {theme === 'dark' ? <Sun className="w-5 h-5 text-[#dcfc44]" /> : <Moon className="w-5 h-5" />}
+          </button>
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </header>
 
       {/* Mobile Nav Overlay */}
@@ -138,13 +153,13 @@ export default function Layout({ children, activeView, onViewChange, userName }:
       {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto technical-grid relative flex flex-col">
         {/* Top Header for Profile */}
-        <header className="flex justify-end p-6 md:p-8 shrink-0">
+        <header className="flex justify-end items-center gap-6 p-6 md:p-8 shrink-0">
           <button 
             onClick={() => onViewChange('profile')}
             className={`w-14 h-14 rounded-full border-2 transition-all flex items-center justify-center font-bold font-mono text-lg shrink-0 ${
               activeView === 'profile' 
-                ? 'bg-[#dcfc44] border-[#dcfc44] text-black shadow-[0_0_20px_rgba(220,252,68,0.4)]' 
-                : 'border-[#dcfc44] text-[#dcfc44] hover:bg-[#dcfc44] hover:text-black'
+                ? 'bg-[var(--accent)] border-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(var(--accent),0.4)]' 
+                : 'border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)]'
             }`}
           >
             {userName ? userName.charAt(0).toUpperCase() : <User className="w-6 h-6" />}

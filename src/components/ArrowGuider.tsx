@@ -64,30 +64,30 @@ export default function ArrowGuider() {
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">Arrow Calculator</h1>
-        <p className="text-gray-500 font-mono text-xs uppercase tracking-widest">Precision Spine & Performance Analysis</p>
+        <p className="text-[var(--muted)] font-mono text-[10px] uppercase tracking-widest">Precision Spine & Performance Analysis</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input Panel */}
         <div className="lg:col-span-2 space-y-6">
-          <section className="bg-[#151619] border border-white/10 rounded-3xl p-8 space-y-10">
+          <section className="bg-[var(--card-bg)] border border-[var(--line)] rounded-3xl p-8 space-y-10 shadow-sm">
             {/* Bow Section */}
             <div className="space-y-6">
-              <h4 className="text-[10px] font-mono uppercase text-[#dcfc44] tracking-widest flex items-center gap-2">
+              <h4 className="text-[10px] font-mono uppercase text-[var(--accent)] tracking-widest flex items-center gap-2">
                 <Zap size={14} />
                 1. Bow Configuration
               </h4>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <label className="text-[10px] uppercase font-mono text-gray-500">Bow Type</label>
+                  <label className="text-[10px] uppercase font-mono text-[var(--muted)]">Bow Type</label>
                   <div className="flex gap-2">
                     {['recurve', 'compound', 'traditional'].map(type => (
                       <button
                         key={type}
                         onClick={() => setInputs({ ...inputs, bow_type: type as any })}
                         className={`flex-1 py-3 rounded-xl border text-[10px] font-mono uppercase transition-all ${
-                          inputs.bow_type === type ? 'bg-[#dcfc44] border-[#dcfc44] text-black' : 'border-white/10 text-gray-400 hover:border-white/30'
+                          inputs.bow_type === type ? 'bg-[var(--accent)] border-[var(--accent)] text-[var(--bg)]' : 'border-[var(--line)] text-[var(--muted)] hover:border-[var(--muted)]'
                         }`}
                       >
                         {type}
@@ -97,9 +97,9 @@ export default function ArrowGuider() {
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[10px] uppercase font-mono text-gray-500 flex justify-between">
+                  <label className="text-[10px] uppercase font-mono text-[var(--muted)] flex justify-between">
                     <span>Actual Draw Weight</span>
-                    <span className="text-[#dcfc44] font-bold">{inputs.draw_weight}#</span>
+                    <span className="text-[var(--accent)] font-bold">{inputs.draw_weight}#</span>
                   </label>
                   <input
                     type="range"
@@ -107,24 +107,24 @@ export default function ArrowGuider() {
                     max="80"
                     value={inputs.draw_weight}
                     onChange={(e) => setInputs({ ...inputs, draw_weight: parseInt(e.target.value) })}
-                    className="w-full h-1 bg-white/5 rounded-lg appearance-none cursor-pointer accent-[#dcfc44]"
+                    className="w-full h-1 bg-[var(--line)] rounded-lg appearance-none cursor-pointer accent-[var(--accent)]"
                   />
                 </div>
               </div>
             </div>
 
             {/* Archer Section */}
-            <div className="space-y-6 border-t border-white/5 pt-8">
-              <h4 className="text-[10px] font-mono uppercase text-[#dcfc44] tracking-widest flex items-center gap-2">
+            <div className="space-y-6 border-t border-[var(--line)] pt-8">
+              <h4 className="text-[10px] font-mono uppercase text-[var(--accent)] tracking-widest flex items-center gap-2">
                 <RefreshCw size={14} />
                 2. Draw Dynamics
               </h4>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <label className="text-[10px] uppercase font-mono text-gray-500 flex justify-between">
+                  <label className="text-[10px] uppercase font-mono text-[var(--muted)] flex justify-between">
                     <span>Draw Length</span>
-                    <span className="text-[#dcfc44] font-bold">{inputs.draw_length}"</span>
+                    <span className="text-[var(--accent)] font-bold">{inputs.draw_length}"</span>
                   </label>
                   <input
                     type="range"
@@ -133,22 +133,22 @@ export default function ArrowGuider() {
                     step="0.5"
                     value={inputs.draw_length}
                     onChange={(e) => setInputs({ ...inputs, draw_length: parseFloat(e.target.value) })}
-                    className="w-full h-1 bg-white/5 rounded-lg appearance-none cursor-pointer accent-[#dcfc44]"
+                    className="w-full h-1 bg-[var(--line)] rounded-lg appearance-none cursor-pointer accent-[var(--accent)]"
                   />
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <label className="text-[10px] uppercase font-mono text-gray-500">Shaft Length</label>
+                    <label className="text-[10px] uppercase font-mono text-[var(--muted)]">Shaft Length</label>
                     <button 
                       onClick={() => setSyncLength(!syncLength)}
-                      className={`text-[8px] font-mono px-2 py-0.5 rounded-full border transition-colors ${syncLength ? 'bg-[#dcfc44] text-black border-[#dcfc44]' : 'bg-white/5 text-gray-500 border-white/10'}`}
+                      className={`text-[8px] font-mono px-2 py-0.5 rounded-full border transition-colors ${syncLength ? 'bg-[var(--accent)] text-[var(--bg)] border-[var(--accent)]' : 'bg-[var(--line)] text-[var(--muted)] border-[var(--line)]'}`}
                     >
                       {syncLength ? 'LOCKED TO DRAW' : 'MANUAL'}
                     </button>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className="text-xl font-bold font-mono text-[#dcfc44] min-w-[3rem] text-center">{inputs.arrow_length}"</span>
+                    <span className="text-xl font-bold font-mono text-[var(--accent)] min-w-[3rem] text-center">{inputs.arrow_length}"</span>
                     <input
                       type="range"
                       min="20"
@@ -157,7 +157,7 @@ export default function ArrowGuider() {
                       disabled={syncLength}
                       value={inputs.arrow_length}
                       onChange={(e) => setInputs({ ...inputs, arrow_length: parseFloat(e.target.value) })}
-                      className={`flex-1 h-1 rounded-lg appearance-none cursor-pointer accent-[#dcfc44] ${syncLength ? 'bg-white/20 opacity-50' : 'bg-white/5'}`}
+                      className={`flex-1 h-1 rounded-lg appearance-none cursor-pointer accent-[var(--accent)] ${syncLength ? 'bg-[var(--line)] opacity-50' : 'bg-[var(--line)]'}`}
                     />
                   </div>
                 </div>
@@ -192,47 +192,47 @@ export default function ArrowGuider() {
 
         {/* Results Panel */}
         <div className="space-y-6">
-          <section className="bg-gradient-to-br from-[#1c1d21] to-[#151619] border border-[#dcfc44]/20 rounded-3xl p-8 sticky top-6 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-            <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-gray-400 mb-8 border-b border-white/5 pb-4">Recommended Configuration</h3>
+          <section className="bg-[var(--card-bg)] border border-[var(--accent)]/20 rounded-3xl p-8 sticky top-6 shadow-xl">
+            <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--muted)] mb-8 border-b border-[var(--line)] pb-4">Recommended Configuration</h3>
             
             <div className="space-y-8">
               <div className="space-y-2">
-                <p className="text-[10px] font-mono text-gray-500 uppercase">Recommended Spine</p>
+                <p className="text-[10px] font-mono text-[var(--muted)] uppercase">Recommended Spine</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-6xl font-black text-[#dcfc44]">{spine}</span>
-                  <span className="text-xs text-gray-500 font-mono uppercase italic">Stat. def</span>
+                  <span className="text-6xl font-black text-[var(--accent)]">{spine}</span>
+                  <span className="text-xs text-[var(--muted)] font-mono uppercase italic">Stat. def</span>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <p className="text-[10px] font-mono text-gray-500 uppercase">Perfect Arrow Length</p>
+                <p className="text-[10px] font-mono text-[var(--muted)] uppercase">Perfect Arrow Length</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-6xl font-black text-[#dcfc44]">{getIdealArrowLength(inputs.draw_length)}</span>
-                  <span className="text-xs text-gray-500 font-mono uppercase">Inches</span>
+                  <span className="text-6xl font-black text-[var(--accent)]">{getIdealArrowLength(inputs.draw_length)}</span>
+                  <span className="text-xs text-[var(--muted)] font-mono uppercase">Inches</span>
                 </div>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-white/5">
-                <p className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-4">Configuration Analysis</p>
+              <div className="space-y-4 pt-4 border-t border-[var(--line)]">
+                <p className="text-[9px] font-mono text-[var(--muted)] uppercase tracking-widest mb-4">Configuration Analysis</p>
                 
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center bg-white/5 px-4 py-2 rounded-xl">
-                    <span className="text-[10px] font-mono text-gray-400 uppercase">Input Draw</span>
-                    <span className="font-bold text-sm text-gray-300">{inputs.draw_length}"</span>
+                  <div className="flex justify-between items-center bg-[var(--line)] px-4 py-2 rounded-xl">
+                    <span className="text-[10px] font-mono text-[var(--muted)] uppercase">Input Draw</span>
+                    <span className="font-bold text-sm">{inputs.draw_length}"</span>
                   </div>
-                  <div className="flex justify-between items-center bg-white/5 px-4 py-2 rounded-xl">
-                    <span className="text-[10px] font-mono text-gray-400 uppercase">Current Shaft</span>
-                    <span className={`font-bold text-sm ${Math.abs(inputs.arrow_length - getIdealArrowLength(inputs.draw_length)) < 0.2 ? 'text-green-400' : 'text-orange-400'}`}>
+                  <div className="flex justify-between items-center bg-[var(--line)] px-4 py-2 rounded-xl">
+                    <span className="text-[10px] font-mono text-[var(--muted)] uppercase">Current Shaft</span>
+                    <span className={`font-bold text-sm ${Math.abs(inputs.arrow_length - getIdealArrowLength(inputs.draw_length)) < 0.2 ? 'text-green-500' : 'text-orange-500'}`}>
                       {inputs.arrow_length}"
                     </span>
                   </div>
-                  <div className="flex justify-between items-center bg-white/5 px-4 py-2 rounded-xl">
-                    <span className="text-[10px] font-mono text-[#dcfc44]/60 uppercase">Calculated FOC</span>
-                    <span className="font-bold text-xs text-[#dcfc44] uppercase tracking-tighter">{getFOCStatus()}</span>
+                  <div className="flex justify-between items-center bg-[var(--line)] px-4 py-2 rounded-xl">
+                    <span className="text-[10px] font-mono text-[var(--accent)] opacity-60 uppercase">Calculated FOC</span>
+                    <span className="font-bold text-xs text-[var(--accent)] uppercase tracking-tighter">{getFOCStatus()}</span>
                   </div>
-                  <div className="flex justify-between items-center bg-white/5 px-4 py-2 rounded-xl">
-                    <span className="text-[10px] font-mono text-gray-400 uppercase">Point Speed</span>
-                    <span className="font-bold text-[10px] uppercase tracking-widest text-[#dcfc44]">{getSpeedStatus()}</span>
+                  <div className="flex justify-between items-center bg-[var(--line)] px-4 py-2 rounded-xl">
+                    <span className="text-[10px] font-mono text-[var(--muted)] uppercase">Point Speed</span>
+                    <span className="font-bold text-[10px] uppercase tracking-widest text-[var(--accent)]">{getSpeedStatus()}</span>
                   </div>
                 </div>
               </div>

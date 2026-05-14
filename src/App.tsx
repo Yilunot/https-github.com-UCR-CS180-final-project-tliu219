@@ -26,7 +26,17 @@ import { doc, getDoc, setDoc, deleteDoc, collection, onSnapshot, query, orderBy 
 import { handleFirestoreError, OperationType } from './lib/firestore-errors';
 import { calculateBraceHeight, calculateDrawLength, calculateArrowSpine, getIdealArrowLength } from './lib/archerUtils';
 
+import { ThemeProvider } from './context/ThemeContext';
+
 export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}
+
+function AppContent() {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [profileLoading, setProfileLoading] = useState(true);
@@ -144,14 +154,14 @@ export default function App() {
 
   if (authLoading || (user && profileLoading)) {
     return (
-      <div className="min-h-screen bg-[#0a0a0b] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center transition-colors duration-300">
         <div className="flex flex-col items-center gap-4">
           <motion.div 
             animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="w-12 h-12 border-4 border-[#dcfc44] border-t-transparent rounded-full"
+            className="w-12 h-12 border-4 border-[var(--accent)] border-t-transparent rounded-full"
           />
-          <p className="font-mono text-[10px] text-gray-500 uppercase tracking-widest animate-pulse">Syncing Tactical Data...</p>
+          <p className="font-mono text-[10px] text-[var(--muted)] uppercase tracking-widest animate-pulse">Syncing Tactical Data...</p>
         </div>
       </div>
     );
@@ -193,19 +203,19 @@ export default function App() {
                 Edit Biometrics
               </button>
             </div>
-            <div className="bg-[#151619] border border-white/10 p-6 rounded-2xl flex flex-col md:flex-row gap-8">
+            <div className="bg-[var(--card-bg)] border border-[var(--line)] p-6 rounded-2xl flex flex-col md:flex-row gap-8 shadow-sm">
               <div className="flex items-center gap-4">
-                <div className="w-24 h-24 rounded-full bg-[#dcfc44] flex items-center justify-center text-black font-bold text-4xl uppercase shrink-0 shadow-[0_0_30px_rgba(220,252,68,0.2)]">
+                <div className="w-24 h-24 rounded-full bg-[var(--accent)] flex items-center justify-center text-[var(--bg)] font-bold text-4xl uppercase shrink-0 shadow-[0_0_30px_rgba(var(--accent),0.2)]">
                   {profile?.name.charAt(0)}
                 </div>
                 <div>
                   <h4 className="text-xl font-bold">{profile?.name}</h4>
-                  <p className="text-[10px] font-mono text-[#dcfc44] uppercase tracking-widest">{profile?.experience_level} LEVEL</p>
+                  <p className="text-[10px] font-mono text-[var(--accent)] uppercase tracking-widest opacity-80">{profile?.experience_level} LEVEL</p>
                 </div>
               </div>
               <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                  <p className="text-[10px] text-gray-500 mb-1 uppercase tracking-widest font-mono">Bow Config</p>
+                <div className="bg-[var(--line)] p-4 rounded-xl border border-transparent">
+                  <p className="text-[10px] text-[var(--muted)] mb-1 uppercase tracking-widest font-mono">Bow Config</p>
                   <p className="text-sm font-bold uppercase">{profile?.bow_type} ({profile?.riser_length}" {profile?.limb_size})</p>
                 </div>
                 <div className="bg-white/5 p-4 rounded-xl border border-white/5">
@@ -243,35 +253,35 @@ export default function App() {
                   <p className="text-sm font-bold uppercase">{profile?.brace_height}"</p>
                   <p className="text-[10px] font-mono text-gray-600 mt-1 uppercase">Recommended: {profile ? calculateBraceHeight(profile.riser_length || 25, profile.limb_size || 'medium') : 0}"</p>
                 </div>
-                <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                  <p className="text-[10px] text-gray-500 mb-1 uppercase tracking-widest font-mono">Joined</p>
-                  <p className="text-sm font-bold uppercase">{new Date(profile?.joined_date || 0).toLocaleDateString()}</p>
+                <div className="bg-[var(--line)] p-4 rounded-xl border border-transparent">
+                  <p className="text-[10px] text-[var(--muted)] mb-1 uppercase tracking-widest font-mono">Profile Config</p>
+                  <p className="text-sm font-bold uppercase">{profile?.experience_level} LEVEL</p>
                 </div>
               </div>
             </div>
             {/* Quick Stats in Profile */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-[#151619] border border-white/10 p-6 rounded-2xl">
-                 <h3 className="text-sm font-mono uppercase tracking-widest text-gray-500 mb-4">Training Discipline</h3>
+              <div className="bg-[var(--card-bg)] border border-[var(--line)] p-6 rounded-2xl">
+                 <h3 className="text-sm font-mono uppercase tracking-widest text-[var(--muted)] mb-4">Training Discipline</h3>
                  <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-xs">Consistency</span>
-                      <div className="w-32 h-1 bg-white/5 rounded-full overflow-hidden">
-                        <div className="w-[85%] h-full bg-[#dcfc44]" />
+                      <div className="w-32 h-1 bg-[var(--line)] rounded-full overflow-hidden">
+                        <div className="w-[85%] h-full bg-[var(--accent)]" />
                       </div>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-xs">Focus Score</span>
-                      <div className="w-32 h-1 bg-white/5 rounded-full overflow-hidden">
-                        <div className="w-[72%] h-full bg-[#dcfc44]" />
+                      <div className="w-32 h-1 bg-[var(--line)] rounded-full overflow-hidden">
+                        <div className="w-[72%] h-full bg-[var(--accent)]" />
                       </div>
                     </div>
                  </div>
               </div>
-              <div className="bg-[#151619] border border-white/10 p-6 rounded-2xl flex flex-col justify-center items-center text-center">
-                <TargetIcon className="w-8 h-8 text-[#dcfc44] mb-2" />
+              <div className="bg-[var(--card-bg)] border border-[var(--line)] p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+                <TargetIcon className="w-8 h-8 text-[var(--accent)] mb-2" />
                 <p className="text-xl font-bold">{sessions.length}</p>
-                <p className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Active Missions</p>
+                <p className="text-[10px] font-mono text-[var(--muted)] uppercase tracking-widest">Active Missions</p>
               </div>
             </div>
           </div>

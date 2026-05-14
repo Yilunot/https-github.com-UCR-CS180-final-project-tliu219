@@ -6,11 +6,21 @@
 }
 
 :root {
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --accent: #2c3e50; /* More professional dark blue for light mode */
+  --ink: #1a1a1a;
+  --line: rgba(0, 0, 0, 0.05);
+  --muted: #6b7280;
+}
+
+.dark {
   --bg: #0a0a0b;
   --card-bg: #151619;
-  --accent: #dcfc44; /* Electric yellow/green for precision */
+  --accent: #dcfc44; /* Neon yellow for precision in dark mode */
   --ink: #ffffff;
   --line: rgba(255, 255, 255, 0.1);
+  --muted: #9ca3af;
 }
 
 body {
@@ -18,6 +28,7 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .technical-grid {
